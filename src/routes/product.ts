@@ -19,10 +19,10 @@ router.put(
   "/:id",
   [body("name").isString().isLength({ max: 150, min: 1 }), handleInputErrors],
   (req, res) => {
-    res.json({});
+    res.json({ message: "all good" });
   }
 );
 
-router.delete("/product/:id", (req, res) => {});
+router.delete("/:id", (req, res) => {});
 
 export { router as productRouter };

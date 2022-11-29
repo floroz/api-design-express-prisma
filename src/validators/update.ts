@@ -4,16 +4,25 @@ import { checkSchema } from "express-validator";
 export const updateModelValidatorSchema = checkSchema({
   title: {
     isString: true,
-    exists: true,
+    isLength: {
+      options: {
+        min: 3,
+        max: 150,
+      },
+    },
     in: ["body"],
   },
   body: {
     isString: true,
-    exists: true,
+    isLength: {
+      options: {
+        min: 3,
+        max: 150,
+      },
+    },
     in: ["body"],
   },
   status: {
-    optional: true,
     custom: {
       options: (value) => {
         if (!Object.values(UPDATE_STATUS).includes(value)) {
