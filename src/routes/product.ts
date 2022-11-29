@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { body } from "express-validator";
+import { createProductHandler, getProductHandler } from "../handlers/product";
 import { handleInputErrors } from "../modules/middleware";
 
 const router = Router();
@@ -11,9 +12,13 @@ router.get("/", (req, res) => {
   res.json({ message: "product" });
 });
 
-router.get("/:id", (req, res) => {});
+router.get("/:id", getProductHandler);
 
-router.post("/", (req, res) => {});
+router.post(
+  "/",
+  [body("name").isString().isLength({ max: 150, min: 1 }), handleInputErrors],
+  createProductHandler
+);
 
 router.put(
   "/:id",
