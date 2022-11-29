@@ -1,24 +1,24 @@
 import { UPDATE_STATUS } from "@prisma/client";
 import { checkSchema } from "express-validator";
 
-export const updateValidatorSchema = checkSchema({
+export const updateModelValidatorSchema = checkSchema({
   title: {
     isString: true,
+    exists: true,
     in: ["body"],
-    errorMessage: "Missing Title",
   },
   body: {
     isString: true,
+    exists: true,
     in: ["body"],
-    errorMessage: "Missing Title",
   },
   status: {
+    optional: true,
     custom: {
       options: (value) => {
         if (!Object.values(UPDATE_STATUS).includes(value)) {
           throw new Error("not matching custom validator");
         }
-
         return true;
       },
     },
