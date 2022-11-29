@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body } from "express-validator";
-import { createProductHandler, getProductHandler } from "../handlers/product";
+import { productHandler } from "../handlers/product";
 import { handleInputErrors } from "../modules/middleware";
 
 const router = Router();
@@ -8,26 +8,22 @@ const router = Router();
 /**
  * Product
  */
-router.get("/", (req, res) => {
-  res.json({ message: "product" });
-});
+router.get("/", productHandler.findAll);
 
-router.get("/:id", getProductHandler);
+router.get("/:id", productHandler.findById);
 
 router.post(
   "/",
   [body("name").isString().isLength({ max: 150, min: 1 }), handleInputErrors],
-  createProductHandler
+  productHandler.create
 );
 
 router.put(
   "/:id",
   [body("name").isString().isLength({ max: 150, min: 1 }), handleInputErrors],
-  (req, res) => {
-    res.json({ message: "all good" });
-  }
+  productHandler.update
 );
 
-router.delete("/:id", (req, res) => {});
+router.delete("/:id", productHandler.delete);
 
 export { router as productRouter };

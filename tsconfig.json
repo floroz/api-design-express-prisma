@@ -2,8 +2,14 @@
   "compilerOptions": {
     "sourceMap": true,
     "outDir": "dist",
+    "noEmit": true,
     "lib": ["esnext"],
     "esModuleInterop": true
   },
-  "include": ["src/**/*.ts"]
+  "ts-node": {
+    "files": true
+  },
+  "files": ["src/types/*"],
+
+  "include": ["src/**/*.ts", "src/types"]
 }
