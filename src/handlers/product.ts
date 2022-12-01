@@ -69,21 +69,12 @@ const update = async (
   res: Response
 ) => {
   try {
-    const product = await prisma.product.findFirst({
-      where: {
-        id: req.params.id,
-        userId: req.user.id,
-      },
-    });
-    console.log(product, req.params.id, req.user.id);
-
-    if (!product) {
-      return res.status(404).json({ message: "Product Not Found" });
-    }
-
     const updated = await prisma.product.update({
       where: {
-        id: req.params.id,
+        id_userId: {
+          id: req.params.id,
+          userId: req.user.id,
+        },
       },
       data: {
         name: req.body.name,
@@ -97,22 +88,14 @@ const update = async (
   }
 };
 
-const deleteById = async (req: Request, res: Response) => {
+const remove = async (req: Request, res: Response) => {
   try {
-    const product = await prisma.product.findFirst({
-      where: {
-        id: req.params.id,
-        userId: req.user.id,
-      },
-    });
-
-    if (!product) {
-      return res.status(404).json({ message: "Product Not Found" });
-    }
-
     const deleted = await prisma.product.delete({
       where: {
-        id: req.params.id,
+        id_userId: {
+          id: req.params.id,
+          userId: req.user.id,
+        },
       },
     });
 
@@ -128,5 +111,5 @@ export const productHandler = {
   findById,
   create,
   update,
-  delete: deleteById,
+  delete: remove,
 };
