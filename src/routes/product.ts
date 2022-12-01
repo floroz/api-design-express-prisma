@@ -1,7 +1,6 @@
 import { Router } from "express";
-import { body } from "express-validator";
 import { productHandler } from "../handlers/product";
-import { handleInputErrors } from "../modules/middleware";
+import { productValidators } from "../validators/product";
 
 const router = Router();
 
@@ -12,17 +11,9 @@ router.get("/", productHandler.findAll);
 
 router.get("/:id", productHandler.findById);
 
-router.post(
-  "/",
-  [body("name").isString().isLength({ max: 150, min: 1 }), handleInputErrors],
-  productHandler.create
-);
+router.post("/", [...productValidators.create], productHandler.create);
 
-router.put(
-  "/:id",
-  [body("name").isString().isLength({ max: 150, min: 1 }), handleInputErrors],
-  productHandler.update
-);
+router.put("/:id", [...productValidators.update], productHandler.update);
 
 router.delete("/:id", productHandler.delete);
 
